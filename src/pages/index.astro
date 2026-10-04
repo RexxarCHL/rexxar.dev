@@ -177,6 +177,7 @@ const range = (start: string, end: string) =>
     padding-top: 6rem; text-align: center;
   }
   .hero-title { white-space: nowrap; }
+  @media (max-width: 400px) { .hero-title { white-space: normal; } }
   .hero .lead { margin-top: 1.5rem; }
   .hero-ctas { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
   .scroll-cue { align-self: center; padding-bottom: 2rem; opacity: 0.35; animation: bounce 1s infinite; }
