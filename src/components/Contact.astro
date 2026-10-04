@@ -1,0 +1,66 @@
+---
+import { frontmatter as about } from '../data/about.md';
+
+const socials = [
+  { label: 'LinkedIn', href: about.links.linkedin },
+  { label: 'GitHub', href: about.links.github },
+  { label: 'YouTube', href: about.links.youtube },
+];
+---
+
+<section id="contact" class="contact">
+  <div class="container">
+    <h2 class="display gradient-text contact-heading fade-in">Let's build<br />something.</h2>
+    <p class="lead muted fade-in" style="--delay: 0.2s">
+      Want to talk about test automation, hardware, robotics, or just say hi? My inbox is open.
+    </p>
+    <div class="cta-row fade-in" style="--delay: 0.3s">
+      <a class="contact-cta" href={`mailto:${about.email}`}>
+        {about.email}
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg>
+      </a>
+    </div>
+    <ul class="socials fade-in" style="--delay: 0.4s">
+      {socials.map((s) => (
+        <li><a class="btn social" href={s.href} target="_blank" rel="noreferrer">{s.label}</a></li>
+      ))}
+    </ul>
+    <footer class="footer">
+      <p>© {new Date().getFullYear()} Chia-Hung Lin</p>
+      <p>Mountain View, CA</p>
+    </footer>
+  </div>
+</section>
+
+<style>
+  .contact { padding-block: 6rem; }
+  @media (min-width: 768px) { .contact { padding-block: 10rem; } }
+  .contact-heading { font-size: clamp(2.5rem, 9.5vw, 10rem); line-height: 0.95; }
+  .contact .lead { margin-top: 2rem; }
+  .cta-row { display: flex; justify-content: center; margin-top: 2.5rem; }
+  .contact-cta {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    border-radius: 999px;
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+    font-size: clamp(0.9rem, 2vw, 1.15rem);
+    text-decoration: none;
+    background: #fff; color: #000;
+    transition: box-shadow 0.3s var(--ease), transform 0.2s var(--ease);
+  }
+  .contact-cta:hover { box-shadow: 0 0 40px rgba(255, 255, 255, 0.3); transform: scale(1.02); }
+  :global(html.light) .contact-cta { background: #0c0c0c; color: #f4f1ec; }
+  :global(html.light) .contact-cta:hover { box-shadow: 0 0 40px rgba(12, 12, 12, 0.2); }
+  .contact-cta svg { transition: transform 0.2s; }
+  .contact-cta:hover svg { transform: translate(3px, -3px); }
+  .socials { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; list-style: none; padding: 0; margin: 3rem 0 0; }
+  .social { padding: 0.65rem 1.25rem; font-weight: 500; }
+  .social:hover { opacity: 1; background: var(--hairline-soft); border-color: color-mix(in srgb, var(--page-fg) 20%, transparent); }
+  .footer {
+    margin-top: 6rem; padding-top: 2rem;
+    border-top: 1px solid var(--hairline);
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem;
+    font-size: 0.875rem; opacity: 0.5;
+  }
+  .footer p { margin: 0; }
+</style>

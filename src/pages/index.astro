@@ -1,86 +1,268 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import ProjectList from '../components/ProjectList.astro';
+import Contact from '../components/Contact.astro';
 import profile from '../assets/profile.jpg';
 import { Content as About, frontmatter as about } from '../data/about.md';
 import { resume, formatMonth } from '../data/resume';
 import { getProjects } from '../data/projects';
 
 const projects = await getProjects();
+const skills = Object.values(resume.skills).flat();
+const range = (start: string, end: string) =>
+  `${formatMonth(start)} – ${end === 'present' ? 'Present' : formatMonth(end)}`;
 ---
 
 <Base>
-  <section class="intro">
-    <Image src={profile} alt="Portrait of Chia-Hung Lin" width={112} height={112} class="avatar" />
-    <h1>{about.name}</h1>
-    <p class="meta">{about.headline}</p>
-    <About />
-    <ul class="links">
-      <li><a href={`mailto:${about.email}`}>Email</a></li>
-      <li><a href={about.links.linkedin}>LinkedIn</a></li>
-      <li><a href={about.links.github}>GitHub</a></li>
-      <li><a href={about.links.youtube}>YouTube</a></li>
-    </ul>
-  </section>
-
-  <h2>Experience</h2>
-  {resume.experience.map((job) => (
-    <article class="entry">
-      <div class="entry-head">
-        <h3>{job.org}</h3>
-        <span class="meta">{formatMonth(job.start)} – {job.end === 'present' ? 'Present' : formatMonth(job.end)}</span>
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-body container">
+        <h1 class="display gradient-text hero-title fade-in" style="--delay: 0.15s; --fade-y: 40px">Rexxar Lin</h1>
+        <p class="lead muted fade-in" style="--delay: 0.15s">{about.headline}</p>
+        <div class="hero-ctas fade-in" style="--delay: 0.4s; --fade-y: 20px">
+          <a class="btn btn-primary" href="/resume.pdf">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+            Resume
+          </a>
+          <a class="btn" href="#contact">Get in touch</a>
+        </div>
       </div>
-      <p class="meta">{job.role}</p>
-      <ul>
-        {job.highlights.map((h) => <li>{h}</li>)}
-      </ul>
-    </article>
-  ))}
+      <a href="#about" class="scroll-cue" aria-label="Scroll to About">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+      </a>
+    </section>
 
-  <h2>Projects</h2>
-  <ProjectList projects={projects.slice(0, 3)} />
-  <p><a href="/projects/">All projects →</a></p>
-
-  <h2>Patents &amp; publications</h2>
-  {resume.patents.map((p) => (
-    <article class="entry">
-      <div class="entry-head">
-        <h3><a href={`https://patents.google.com/patent/${p.number.replaceAll('-', '')}`}>{p.title}</a></h3>
-        <span class="meta">{formatMonth(p.date)}</span>
+    <!-- About -->
+    <section id="about" class="about container">
+      <h2 class="display gradient-text fade-in" style="--fade-y: 40px">About</h2>
+      <div class="about-body">
+        <Image src={profile} alt="Portrait of Chia-Hung Lin" width={176} height={176} class="avatar fade-in" />
+        <div class="about-text fade-in" style="--delay: 0.1s">
+          <About />
+        </div>
+        <ul class="pills fade-in" style="--delay: 0.3s; --fade-y: 20px">
+          {skills.map((s) => <li class="pill">{s}</li>)}
+        </ul>
       </div>
-      <p class="meta">{p.number}</p>
-      <p>{p.note}</p>
-    </article>
-  ))}
-  <article class="entry">
-    <div class="entry-head">
-      <h3><a href="https://arxiv.org/abs/1810.11714">The CoSTAR Block Stacking Dataset: Learning with Workspace Constraints</a></h3>
-      <span class="meta">IROS 2019</span>
-    </div>
-    <p class="meta">A. Hundt, V. Jain, C. H. Lin, C. Paxton, G. D. Hager</p>
-  </article>
+    </section>
 
-  <h2>Education</h2>
-  {resume.education.map((e) => (
-    <article class="entry">
-      <div class="entry-head">
-        <h3>{e.school}</h3>
-        <span class="meta">{formatMonth(e.end)}</span>
+    <!-- Experience (inverted panel) -->
+    <section id="experience" class="experience">
+      <div class="experience-inner">
+        <h2 class="display exp-title fade-in" style="--fade-y: 40px">Experience</h2>
+        {resume.experience.map((job, i) => (
+          <article class="exp-row fade-in" style={`--delay: ${i * 0.1}s`}>
+            <div class="exp-when">
+              <span class="exp-period">{range(job.start, job.end)}</span>
+              <span class="exp-place">{job.location}</span>
+            </div>
+            <div class="exp-what">
+              <h3>
+                {job.role}
+                <span class="exp-org">at {job.org}</span>
+              </h3>
+              <ul class="dot-list exp-bullets">
+                {job.highlights.map((h) => <li>{h}</li>)}
+              </ul>
+            </div>
+          </article>
+        ))}
+
+        <h3 class="exp-subtitle fade-in">Patents &amp; publications</h3>
+        {resume.patents.map((p) => (
+          <article class="exp-row fade-in">
+            <div class="exp-when">
+              <span class="exp-period">{formatMonth(p.date)}</span>
+              <span class="exp-place">{p.number}</span>
+            </div>
+            <div class="exp-what">
+              <h3><a href={`https://patents.google.com/patent/${p.number.replaceAll('-', '')}`}>{p.title}</a></h3>
+              <p class="exp-text">{p.note}</p>
+            </div>
+          </article>
+        ))}
+        <article class="exp-row fade-in">
+          <div class="exp-when">
+            <span class="exp-period">2019</span>
+            <span class="exp-place">IROS</span>
+          </div>
+          <div class="exp-what">
+            <h3><a href="https://arxiv.org/abs/1810.11714">The CoSTAR Block Stacking Dataset: Learning with Workspace Constraints</a></h3>
+            <p class="exp-text">A. Hundt, V. Jain, C. H. Lin, C. Paxton, G. D. Hager</p>
+          </div>
+        </article>
+
+        <h3 class="exp-subtitle fade-in">Education</h3>
+        {resume.education.map((e) => (
+          <article class="exp-row fade-in">
+            <div class="exp-when">
+              <span class="exp-period">{formatMonth(e.end)}</span>
+            </div>
+            <div class="exp-what">
+              <h3>{e.school}</h3>
+              <p class="exp-text">{e.degree}</p>
+            </div>
+          </article>
+        ))}
       </div>
-      <p class="meta">{e.degree}</p>
-    </article>
-  ))}
+    </section>
 
-  <h2>Skills</h2>
-  <ul>
-    {Object.entries(resume.skills).map(([k, v]) => (
-      <li><strong>{k[0].toUpperCase() + k.slice(1)}:</strong> {v.join(', ')}</li>
-    ))}
-  </ul>
+    <!-- Projects (sticky stacked cards) -->
+    <section id="projects" class="projects container">
+      <h2 class="display gradient-text projects-title">Projects</h2>
+      <div data-stack>
+        {projects.map((p, i) => (
+          <div class="card-slot" style={`--top: ${80 + i * 24}px`}>
+            <article class="card" data-card>
+              <header class="card-head">
+                <span class="card-num">{String(i + 1).padStart(2, '0')}</span>
+                <div class="card-titles">
+                  <span class="card-cat">{p.data.org} · {p.data.date}</span>
+                  <h3 class="card-name">{p.data.title}</h3>
+                </div>
+                <a class="btn card-more" href={`/projects/${p.id}/`} aria-label={`Read more about ${p.data.title}`}>
+                  Read more
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg>
+                </a>
+              </header>
+              <p class="card-desc">{p.data.summary}</p>
+              <ul class="pills card-tags">
+                {p.data.tags.map((t) => <li class="pill">{t}</li>)}
+              </ul>
+              {p.data.links.length > 0 && (
+                <ul class="card-links">
+                  {p.data.links.map((l) => <li><a href={l.url} target="_blank" rel="noreferrer">{l.label} ↗</a></li>)}
+                </ul>
+              )}
+            </article>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <Contact />
+  </main>
 </Base>
 
+<script>
+  // Shrink earlier cards slightly as later ones stack on top of them.
+  const stack = document.querySelector<HTMLElement>('[data-stack]');
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-card]')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (stack && cards.length && !reduce) {
+    const n = cards.length;
+    const update = () => {
+      const r = stack.getBoundingClientRect();
+      const total = r.height - window.innerHeight;
+      const progress = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0;
+      cards.forEach((card, i) => {
+        const start = i / n;
+        const target = 1 - (n - 1 - i) * 0.03;
+        const t = progress <= start ? 0 : (progress - start) / (1 - start);
+        card.style.transform = `scale(${1 - (1 - target) * t})`;
+      });
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+</script>
+
 <style>
-  .intro { padding-top: 1.5rem; }
-  .avatar { border-radius: 50%; margin-bottom: 1rem; display: block; }
+  /* Hero */
+  .hero { min-height: 100svh; display: flex; flex-direction: column; }
+  .hero-body {
+    flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding-top: 6rem; text-align: center;
+  }
+  .hero-title { white-space: nowrap; }
+  .hero .lead { margin-top: 1.5rem; }
+  .hero-ctas { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+  .scroll-cue { align-self: center; padding-bottom: 2rem; opacity: 0.35; animation: bounce 1s infinite; }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
+    50% { transform: none; animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+  }
+
+  /* About */
+  .about { padding-block: 6rem; display: flex; flex-direction: column; align-items: center; gap: 3rem; }
+  .about-body { display: flex; flex-direction: column; align-items: center; gap: 2.5rem; max-width: 40rem; }
+  .avatar { border-radius: 2rem; width: 176px; height: 176px; object-fit: cover; }
+  .about-text { text-align: center; font-weight: 500; font-size: clamp(1rem, 1.6vw, 1.2rem); line-height: 1.75; }
+  .about-text :global(p) { margin: 0 0 1.25rem; }
+
+  /* Experience */
+  .experience {
+    background: var(--page-bg-invert);
+    color: var(--page-fg-invert);
+    border-radius: 40px 40px 0 0;
+    margin: 2.5rem 0.5rem 0;
+    padding: 5rem 1.25rem;
+  }
+  @media (min-width: 640px) { .experience { border-radius: 50px 50px 0 0; margin-inline: 1rem; padding: 6rem 2rem; } }
+  @media (min-width: 768px) { .experience { border-radius: 60px 60px 0 0; margin-inline: 1.5rem; padding: 8rem 2.5rem; } }
+  .experience-inner { max-width: 64rem; margin-inline: auto; }
+  .exp-title { margin-bottom: 4rem; }
+  @media (min-width: 768px) { .exp-title { margin-bottom: 7rem; } }
+  .exp-subtitle {
+    font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600;
+    opacity: 0.55; margin: 4.5rem 0 0.5rem;
+  }
+  .exp-row {
+    display: flex; flex-direction: column; gap: 1rem;
+    padding-block: 2rem;
+    border-top: 1px solid color-mix(in srgb, var(--page-fg-invert) 15%, transparent);
+  }
+  .exp-row:has(+ .exp-subtitle), .exp-row:last-child {
+    border-bottom: 1px solid color-mix(in srgb, var(--page-fg-invert) 15%, transparent);
+  }
+  @media (min-width: 768px) { .exp-row { flex-direction: row; gap: 3rem; padding-block: 3rem; } }
+  .exp-when { flex-shrink: 0; display: flex; flex-direction: column; gap: 0.25rem; }
+  @media (min-width: 768px) { .exp-when { width: 220px; padding-top: 0.4rem; } }
+  .exp-period { font-weight: 600; font-size: clamp(0.9rem, 1.5vw, 1.1rem); }
+  .exp-place { font-weight: 500; font-size: clamp(0.8rem, 1.2vw, 0.95rem); opacity: 0.7; }
+  .exp-what { flex: 1; }
+  .exp-what h3 { font-weight: 500; text-transform: uppercase; font-size: clamp(1.2rem, 2.5vw, 2rem); line-height: 1.15; }
+  .exp-what h3 a { text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .exp-org {
+    display: block; margin-top: 0.3rem; font-family: var(--font-sans); font-weight: 400;
+    text-transform: none; opacity: 0.6; font-size: clamp(0.9rem, 1.5vw, 1.3rem);
+  }
+  .exp-bullets { margin-top: 1.25rem; opacity: 0.75; font-size: clamp(0.95rem, 1.5vw, 1.15rem); }
+  .exp-text { margin: 0.75rem 0 0; font-weight: 300; opacity: 0.75; font-size: clamp(0.95rem, 1.5vw, 1.1rem); }
+
+  /* Projects */
+  .projects { padding-top: 6rem; padding-bottom: 4rem; }
+  @media (min-width: 768px) { .projects { padding-top: 8rem; } }
+  .projects-title { margin-bottom: 4rem; }
+  @media (min-width: 768px) { .projects-title { margin-bottom: 7rem; } }
+  .card-slot { position: sticky; top: var(--top); margin-bottom: 12vh; }
+  .card {
+    background: var(--page-bg);
+    border: 2px solid var(--hairline);
+    border-radius: 32px;
+    padding: 1.25rem;
+    min-height: 26rem;
+    display: flex; flex-direction: column; gap: 1.5rem;
+    transform-origin: top center;
+    will-change: transform;
+  }
+  @media (min-width: 640px) { .card { border-radius: 50px; padding: 2rem; } }
+  @media (min-width: 768px) { .card { border-radius: 60px; padding: 2.5rem; min-height: 30rem; } }
+  .card-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; gap: 1rem 1.5rem; }
+  .card-num { font-weight: 900; font-size: clamp(2.25rem, 10vw, 140px); line-height: 0.85; }
+  .card-titles { display: flex; flex-direction: column; gap: 0.5rem; padding-top: 0.25rem; min-width: 0; }
+  .card-cat { text-transform: uppercase; letter-spacing: 0.12em; font-weight: 300; opacity: 0.6; font-size: clamp(0.65rem, 1vw, 0.85rem); }
+  .card-name { font-weight: 500; text-transform: uppercase; line-height: 1.15; font-size: clamp(1.05rem, 3vw, 2.5rem); }
+  .card-more { padding: 0.6rem 1.1rem; font-size: 0.78rem; white-space: nowrap; }
+  @media (max-width: 639px) {
+    .card-head { grid-template-columns: auto minmax(0, 1fr); }
+    .card-more { grid-column: 1 / -1; justify-self: start; }
+  }
+  .card-desc { margin: 0; font-weight: 300; opacity: 0.8; font-size: clamp(1rem, 1.6vw, 1.35rem); line-height: 1.6; max-width: 48rem; }
+  .card-tags { justify-content: flex-start; }
+  .card-links { margin: auto 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; font-size: 0.9rem; }
+  .card-links a { opacity: 0.7; text-underline-offset: 0.2em; }
+  .card-links a:hover { opacity: 1; }
 </style>

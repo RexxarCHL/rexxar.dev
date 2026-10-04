@@ -1,14 +1,40 @@
 ---
 import Base from '../../layouts/Base.astro';
-import ProjectList from '../../components/ProjectList.astro';
 import { getProjects } from '../../data/projects';
 
 const projects = await getProjects();
 ---
 
 <Base title="Projects" description="Robotics, computer vision and hardware projects by Chia-Hung (Rexxar) Lin.">
-  <h1>Projects</h1>
-  <p class="meta">Research, coursework and side projects from before and around grad school.</p>
-  <h2>All projects</h2>
-  <ProjectList projects={projects} />
+  <main class="container page">
+    <h1 class="display gradient-text fade-in">Projects</h1>
+    <ol class="list">
+      {projects.map((p, i) => (
+        <li class="row fade-in" style={`--delay: ${i * 0.05}s`}>
+          <a href={`/projects/${p.id}/`}>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="body">
+              <span class="cat">{p.data.org} · {p.data.date}</span>
+              <span class="name">{p.data.title}</span>
+              <span class="desc">{p.data.summary}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </main>
 </Base>
+
+<style>
+  .page { padding-top: 9rem; padding-bottom: 6rem; }
+  .list { list-style: none; padding: 0; margin: 5rem auto 0; max-width: 64rem; }
+  .row { border-top: 1px solid var(--hairline); }
+  .row:last-child { border-bottom: 1px solid var(--hairline); }
+  .row a { display: flex; gap: 1.5rem; padding-block: 2rem; text-decoration: none; transition: opacity 0.2s; }
+  .row a:hover { opacity: 0.7; }
+  .num { font-family: var(--font-display); font-weight: 900; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 0.9; }
+  .body { display: flex; flex-direction: column; gap: 0.4rem; }
+  .cat { text-transform: uppercase; letter-spacing: 0.12em; font-weight: 300; opacity: 0.6; font-size: 0.8rem; }
+  .name { font-family: var(--font-display); font-weight: 500; text-transform: uppercase; font-size: clamp(1.1rem, 2.5vw, 1.8rem); line-height: 1.15; }
+  .desc { font-weight: 300; opacity: 0.75; }
+</style>

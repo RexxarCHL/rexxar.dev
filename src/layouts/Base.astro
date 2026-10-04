@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Nav from '../components/Nav.astro';
 
 interface Props {
   title?: string;
@@ -7,10 +8,13 @@ interface Props {
 }
 
 const site = 'Chia-Hung (Rexxar) Lin';
-const { title, description = 'Hardware test engineer for LiDAR at Waymo, with a background in robotics and software.' } = Astro.props;
+const {
+  title,
+  description = 'Hardware test engineer for LiDAR at Waymo, with a background in robotics and software.',
+} = Astro.props;
 const fullTitle = title ? `${title} · ${site}` : site;
-const path = Astro.url.pathname;
-const canonical = new URL(path, Astro.site);
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const isHome = Astro.url.pathname === '/';
 ---
 
 <!doctype html>
@@ -27,19 +31,41 @@ const canonical = new URL(path, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Stack+Sans+Notch:wght@400;500;700;900&display=swap"
+    />
+    <script is:inline>
+      // Apply the saved or system theme before first paint, and enable scroll animations.
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        var t = null;
+        try { t = localStorage.getItem('theme'); } catch (e) {}
+        if (!t) t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        if (t === 'light') d.classList.add('light');
+      })();
+    </script>
   </head>
   <body>
-    <header class="site-header">
-      <a class="home" href="/">Rexxar Lin</a>
-      <nav>
-        <a href="/projects/" aria-current={path.startsWith('/projects') ? 'page' : undefined}>Projects</a>
-      </nav>
-    </header>
-    <main>
-      <slot />
-    </main>
-    <footer class="site-footer">
-      © {new Date().getFullYear()} Chia-Hung Lin
-    </footer>
+    <Nav base={isHome ? '' : '/'} />
+    <slot />
+    <script>
+      const els = document.querySelectorAll('.fade-in');
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-visible');
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { rootMargin: '50px' },
+      );
+      els.forEach((el) => io.observe(el));
+    </script>
   </body>
 </html>
