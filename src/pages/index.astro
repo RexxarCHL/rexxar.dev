@@ -1,0 +1,86 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import ProjectList from '../components/ProjectList.astro';
+import profile from '../assets/profile.jpg';
+import { Content as About, frontmatter as about } from '../data/about.md';
+import { resume, formatMonth } from '../data/resume';
+import { getProjects } from '../data/projects';
+
+const projects = await getProjects();
+---
+
+<Base>
+  <section class="intro">
+    <Image src={profile} alt="Portrait of Chia-Hung Lin" width={112} height={112} class="avatar" />
+    <h1>{about.name}</h1>
+    <p class="meta">{about.headline}</p>
+    <About />
+    <ul class="links">
+      <li><a href={`mailto:${about.email}`}>Email</a></li>
+      <li><a href={about.links.linkedin}>LinkedIn</a></li>
+      <li><a href={about.links.github}>GitHub</a></li>
+      <li><a href={about.links.youtube}>YouTube</a></li>
+    </ul>
+  </section>
+
+  <h2>Experience</h2>
+  {resume.experience.map((job) => (
+    <article class="entry">
+      <div class="entry-head">
+        <h3>{job.org}</h3>
+        <span class="meta">{formatMonth(job.start)} – {job.end === 'present' ? 'Present' : formatMonth(job.end)}</span>
+      </div>
+      <p class="meta">{job.role}</p>
+      <ul>
+        {job.highlights.map((h) => <li>{h}</li>)}
+      </ul>
+    </article>
+  ))}
+
+  <h2>Projects</h2>
+  <ProjectList projects={projects.slice(0, 3)} />
+  <p><a href="/projects/">All projects →</a></p>
+
+  <h2>Patents &amp; publications</h2>
+  {resume.patents.map((p) => (
+    <article class="entry">
+      <div class="entry-head">
+        <h3><a href={`https://patents.google.com/patent/${p.number.replaceAll('-', '')}`}>{p.title}</a></h3>
+        <span class="meta">{formatMonth(p.date)}</span>
+      </div>
+      <p class="meta">{p.number}</p>
+      <p>{p.note}</p>
+    </article>
+  ))}
+  <article class="entry">
+    <div class="entry-head">
+      <h3><a href="https://arxiv.org/abs/1810.11714">The CoSTAR Block Stacking Dataset: Learning with Workspace Constraints</a></h3>
+      <span class="meta">IROS 2019</span>
+    </div>
+    <p class="meta">A. Hundt, V. Jain, C. H. Lin, C. Paxton, G. D. Hager</p>
+  </article>
+
+  <h2>Education</h2>
+  {resume.education.map((e) => (
+    <article class="entry">
+      <div class="entry-head">
+        <h3>{e.school}</h3>
+        <span class="meta">{formatMonth(e.end)}</span>
+      </div>
+      <p class="meta">{e.degree}</p>
+    </article>
+  ))}
+
+  <h2>Skills</h2>
+  <ul>
+    {Object.entries(resume.skills).map(([k, v]) => (
+      <li><strong>{k[0].toUpperCase() + k.slice(1)}:</strong> {v.join(', ')}</li>
+    ))}
+  </ul>
+</Base>
+
+<style>
+  .intro { padding-top: 1.5rem; }
+  .avatar { border-radius: 50%; margin-bottom: 1rem; display: block; }
+</style>

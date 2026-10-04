@@ -1,0 +1,45 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const site = 'Chia-Hung (Rexxar) Lin';
+const { title, description = 'Hardware test engineer for LiDAR at Waymo, with a background in robotics and software.' } = Astro.props;
+const fullTitle = title ? `${title} · ${site}` : site;
+const path = Astro.url.pathname;
+const canonical = new URL(path, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="home" href="/">Rexxar Lin</a>
+      <nav>
+        <a href="/projects/" aria-current={path.startsWith('/projects') ? 'page' : undefined}>Projects</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      © {new Date().getFullYear()} Chia-Hung Lin
+    </footer>
+  </body>
+</html>

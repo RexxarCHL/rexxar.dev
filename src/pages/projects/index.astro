@@ -1,0 +1,14 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectList from '../../components/ProjectList.astro';
+import { getProjects } from '../../data/projects';
+
+const projects = await getProjects();
+---
+
+<Base title="Projects" description="Robotics, computer vision and hardware projects by Chia-Hung (Rexxar) Lin.">
+  <h1>Projects</h1>
+  <p class="meta">Research, coursework and side projects from before and around grad school.</p>
+  <h2>All projects</h2>
+  <ProjectList projects={projects} />
+</Base>

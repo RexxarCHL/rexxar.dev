@@ -1,0 +1,40 @@
+# Work experience, newest first
+experience:
+- org: Waymo
+  location: Mountain View, CA
+  role: Hardware Test Development Engineer, LiDAR, Advanced Manufacturing
+  start: 2019-11
+  end: present
+  highlights:
+    - Design, develop and build automated test equipment for pre-production electro-mechanical LiDAR hardware, used in manufacturing, reliability and design validation.
+    - Lead final assembly, test, packaging and calibration for LiDAR production lines with US and overseas manufacturers.
+    - Run failure analysis and yield-improvement efforts to find test coverage gaps, hardware design problems and software bugs.
+    - Built a Robotic Process Automation system that monitors RMA, production yield and failure triage. Monitoring turnaround went from 24 hours to 10 minutes, and RMA turnaround went from 30+ days to under 10 days, with more than 75% of tasks automated.
+- org: Waymo
+  location: Mountain View, CA
+  role: Hardware Test Engineer Intern, Supply Chain
+  start: 2019-07
+  end: 2019-10
+  highlights:
+    - Designed robotic test infrastructure with automatic parameter search and optimization, which improved a radio link's performance by 1000x.
+    - Developed a free-space optical communication system that aligns itself to an incoming laser beam.
+    - Designed an ESD dissipation harness and circuitry to fix a factory issue.
+
+education:
+  - school: Johns Hopkins University
+    degree: MSE, Robotics (Automation Science and Engineering track)
+    end: 2019-05
+  - school: National Tsing Hua University
+    degree: BS, Electrical Engineering and Computer Science
+    end: 2015-06
+
+patents:
+  - title: Broadband rotary joint for millimeter wave transmission
+    number: US-11916273-B1
+    date: 2024-02
+    note: Co-inventor. Designed the autonomous robotic validation and data-collection system used to find a workable mmWave link design.
+
+skills:
+  software: [Python, C++, Arduino, MATLAB, ROS]
+  hardware: [Creo, SolidWorks, Altium]
+  languages: [English, Mandarin Chinese]
