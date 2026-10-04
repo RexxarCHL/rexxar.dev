@@ -18,7 +18,7 @@ const range = (start: string, end: string) =>
     <!-- Hero -->
     <section class="hero">
       <div class="hero-body container">
-        <h1 class="display gradient-text hero-title fade-in" style="--delay: 0.15s; --fade-y: 40px">Rexxar Lin</h1>
+        <h1 class="display gradient-text hero-title fade-in" style="--delay: 0.15s; --fade-y: 40px">Chia-Hung Lin</h1>
         <p class="lead muted fade-in" style="--delay: 0.15s">{about.headline}</p>
         <div class="hero-ctas fade-in" style="--delay: 0.4s; --fade-y: 20px">
           <a class="btn btn-primary" href="/resume.pdf">
@@ -176,8 +176,8 @@ const range = (start: string, end: string) =>
     flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
     padding-top: 6rem; text-align: center;
   }
-  .hero-title { white-space: nowrap; }
-  @media (max-width: 400px) { .hero-title { white-space: normal; } }
+  .hero-title { font-size: clamp(2.75rem, 8.5vw, 140px); }
+  @media (min-width: 640px) { .hero-title { white-space: nowrap; } }
   .hero .lead { margin-top: 1.5rem; }
   .hero-ctas { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
   .scroll-cue { align-self: center; padding-bottom: 2rem; opacity: 0.35; animation: bounce 1s infinite; }
