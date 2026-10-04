@@ -1,7 +1,7 @@
 ---
 name: Chia-Hung (Rexxar) Lin
 headline: Hardware test engineer for LiDAR at Waymo, with a background in robotics and software.
-email: rexxar.lin@gmail.com
+email: hi@rexxar.dev
 links:
   github: https://github.com/rexxarchl
   linkedin: https://www.linkedin.com/in/ch-lin/
