@@ -31,6 +31,8 @@ const isHome = Astro.url.pathname === '/';
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content="website" />
+    <link rel="preload" href="/fonts/rexxar-block.woff2" as="font" type="font/woff2" crossorigin />
+    {isHome && <link rel="preload" href="/fonts/rexxar-wide.woff2" as="font" type="font/woff2" crossorigin />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

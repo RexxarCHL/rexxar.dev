@@ -18,7 +18,7 @@ const range = (start: string, end: string) =>
     <!-- Hero -->
     <section class="hero">
       <div class="hero-body container">
-        <h1 class="display gradient-text hero-title fade-in" style="--delay: 0.15s; --fade-y: 40px">Chia-Hung Lin</h1>
+        <h1 class="display gradient-text hero-title fade-in" style="--delay: 0.15s; --fade-y: 40px"><span class="hero-line">Chia-Hung</span> <span class="hero-line">Lin</span></h1>
         <p class="lead muted fade-in" style="--delay: 0.15s">{about.headline}</p>
         <div class="hero-ctas fade-in" style="--delay: 0.4s; --fade-y: 20px">
           <a class="btn btn-primary" href="/resume.pdf">
@@ -176,8 +176,21 @@ const range = (start: string, end: string) =>
     flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
     padding-top: 6rem; text-align: center;
   }
-  .hero-title { font-size: clamp(2.75rem, 8.5vw, 140px); }
-  @media (min-width: 640px) { .hero-title { white-space: nowrap; } }
+  /* Rexxar Wide: "CHIA-HUNG LIN" is 9.98em wide, "CHIA-HUNG" is 7.59em.
+     Landscape sets one row; portrait breaks after the hyphen into two rows. */
+  .hero-title {
+    font-family: "Rexxar Wide", var(--font-display);
+    font-weight: 400;
+    font-synthesis: none;
+    letter-spacing: 0;
+    white-space: nowrap;
+    font-size: min(calc((100vw - 5rem) / 10.2), 116px);
+  }
+  .hero-line { display: inline; }
+  @media (orientation: portrait) {
+    .hero-title { font-size: min(calc((100vw - 3rem) / 7.8), 150px); line-height: 1.05; }
+    .hero-line { display: block; }
+  }
   .hero .lead { margin-top: 1.5rem; }
   .hero-ctas { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
   .scroll-cue { align-self: center; padding-bottom: 2rem; opacity: 0.35; animation: bounce 1s infinite; }

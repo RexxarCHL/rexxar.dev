@@ -15,7 +15,7 @@ const items = [
 <input id="menu-checkbox" type="checkbox" class="sr-only menu-checkbox" aria-label="Menu" />
 <nav class="nav" data-nav>
   <div class="container nav-inner">
-    <a href="/" class="logo">REXXAR</a>
+    <a href="/" class="logo" aria-label="Rexxar, home">Rexxar</a>
     <div class="nav-links">
       {items.map((i) => <a href={i.href}>{i.label.toUpperCase()}</a>)}
     </div>
@@ -88,7 +88,11 @@ const items = [
     border-bottom-color: var(--hairline);
   }
   .nav-inner { display: flex; align-items: center; justify-content: space-between; position: relative; }
-  .logo { font-weight: 900; letter-spacing: 0.18em; font-size: 0.95rem; text-decoration: none; }
+  .logo {
+    font-family: "Rexxar Block", var(--font-sans);
+    font-weight: 400; font-synthesis: none; letter-spacing: 0;
+    font-size: 1.3rem; line-height: 1; text-decoration: none;
+  }
   .nav-links {
     display: none;
     position: absolute; left: 50%; transform: translateX(-50%);
