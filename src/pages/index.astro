@@ -193,6 +193,14 @@ const range = (start: string, end: string) =>
   }
   .hero .lead { margin-top: 1.5rem; }
   .hero-ctas { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+  /* Short landscape screens (phones on their side): tighten vertical spacing so the
+     title, lead, buttons and scroll cue all fit in the first screen. */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .hero-body { padding-top: 4rem; }
+    .hero .lead { margin-top: 0.75rem; }
+    .hero-ctas { margin-top: 1.25rem; }
+    .scroll-cue { padding-bottom: 0.75rem; }
+  }
   .scroll-cue { align-self: center; padding-bottom: 2rem; opacity: 0.35; animation: bounce 1s infinite; }
   @keyframes bounce {
     0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }

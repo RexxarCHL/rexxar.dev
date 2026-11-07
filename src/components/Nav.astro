@@ -80,6 +80,7 @@ const items = [
     transition: padding 0.5s var(--ease), background-color 0.5s var(--ease), border-color 0.5s var(--ease);
   }
   @media (min-width: 768px) { .nav { padding-block: 2rem; } }
+  @media (orientation: landscape) and (max-height: 500px) { .nav { padding-block: 0.75rem; } }
   .nav.scrolled {
     padding-block: 0.75rem;
     background: color-mix(in srgb, var(--page-bg) 80%, transparent);
